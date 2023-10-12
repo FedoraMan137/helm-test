@@ -6,7 +6,7 @@ redis:
     storageClass: "ibmc-vpc-block-general-purpose"
   persistence:
     enabled: true
-    size: 8Gi
+    size: 10Gi
   replica:
     replicaCount: 1
 
@@ -18,7 +18,7 @@ postgresql:
     storageClass: "ibmc-vpc-block-general-purpose"
   persistence:
     enabled: true
-    size: 8Gi
+    size: 10Gi
 
 one37secrets:
   nameOverride: "one37id-ibm-agent-db-one37secrets"
@@ -29,7 +29,7 @@ one37secrets:
 # Declare variables to be passed into your templates.
 
 nameOverride: "one37id-ibm-agent"
-fullname: "one37id-ibm-agent"
+fullnameOverride: "one37id-ibm-agent"
 
 # Enable this if you want have liveness and readiness probes
 liveCheck: false
@@ -118,7 +118,7 @@ secrets:
   app:
     PG_USER: postgres
     PG_ADMIN_USER: postgres
-    APP_INSIGHTS_CS: "InstrumentationKey=fe47e6cf-d4bc-44a8-96ae-7ede2471e1f8;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/"
+    APP_INSIGHTS_CS: "InstrumentationKey=c6090685-8a49-4d28-90d6-beaf004fc3b3;IngestionEndpoint=https://canadacentral-1.in.applicationinsights.azure.com/;LiveEndpoint=https://canadacentral.livediagnostics.monitor.azure.com/"
 
   postgres:
     passwordKey: "postgres-password"
@@ -161,23 +161,13 @@ resources:
   ##   memory: 128Mi
   requests: {}
 
-
-workflowVolume:
-  name: app-workflows
-  mountPath: /app/workflows/custom
+volume:
+  name: external
+  mountPath: /app/external
   accessModes:
     - ReadWriteOnce
-  storageClass: default
   size: 1Gi
-
-resourceVolume:
-  name: app-resources
-  mountPath: /app/ResourcesExternal
-  accessModes:
-    - ReadWriteOnce
-  storageClass: default
-  size: 1Gi
-
+  storageClass: ibmc-vpc-block-general-purpose
 
 nodeSelector: {}
 
